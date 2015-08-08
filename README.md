@@ -1,4 +1,5 @@
-# airbrake
+Airbrake Crystal
+----------------
 
 TODO: Write a description here for library
 
@@ -8,7 +9,7 @@ Add it to `Projectfile`
 
 ```crystal
 deps do
-  github "[your-github-name]/airbrake"
+  github "kyrylo/airbrake"
 end
 ```
 
