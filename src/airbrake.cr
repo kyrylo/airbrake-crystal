@@ -25,7 +25,7 @@ module Airbrake
     def initialize(exception)
       @payload = {
         notifier: {
-          name: "Airbrake Ruby"
+          name: "Airbrake Crystal"
           version: Airbrake::VERSION,
           url: "https://github.com/kyrylo/airbrake-crystal"
         },
