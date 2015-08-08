@@ -41,8 +41,8 @@ module Airbrake
       }
     end
 
-    def to_json
-      @payload.to_json
+    def to_json(io)
+      @payload.to_json(io)
     end
   end
 
