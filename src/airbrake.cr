@@ -13,7 +13,7 @@ module Airbrake
     def self.parse(exception)
       (exception.backtrace || [] of String).map do |stackframe|
         if m = stackframe.match(STACKFRAME_TEMPLATE)
-          { file: m[1]? || "<crystal>" , line: m[2]?.to_i || 0, function: "<file>" }
+          { file: m[1]? || "<crystal>" , line: m[2]?.try(&.to_i) || 0, function: "<file>" }
         else
           { file: "<crystal>", line: 0, function: "<file>" }
         end
@@ -36,8 +36,8 @@ module Airbrake
           os: {{`uname -a`.stringify}},
           language: {{`crystal -v`.stringify}}
         },
-        environment: {} of Symbol => Hash,
-        params: {} of String => Hash
+        environment: {} of Symbol => Hash(String, String),
+        params: {} of String => Hash(String, String)
       }
     end
 
@@ -49,21 +49,28 @@ module Airbrake
   class Config
     property :project_id
     property :project_key
+    property :host
+    property :port
+    property :secure
+
+    def uri
+      self.host   ||= "airbrake.io"
+      self.port   ||= 443
+      scheme = (self.secure.nil? || self.secure) ? "https" : "http"
+
+      URI.new(scheme, host, port, "/api/v3/projects/#{project_id}/notices", "key=#{project_key}").to_s
+    end
   end
 
   module Sender
     def self.send(notice)
       response = HTTP::Client.post(
-        endpoint,
+        Airbrake.config.uri,
         headers: HTTP::Headers{ "Content-Type" => "application/json",
                                 "User-Agent" => "Airbrake Crystal" },
         body: notice.to_json)
 
       Hash(String, String).from_json(response.body)
-    end
-
-    private def self.endpoint
-      "https://airbrake.io/api/v3/projects/#{Airbrake.config.project_id}/notices?key=#{Airbrake.config.project_key}"
     end
   end
 
@@ -87,6 +94,7 @@ module Airbrake
   end
 
   def self.configure
+    @@configuration = Config.new
     yield config
   end
 
