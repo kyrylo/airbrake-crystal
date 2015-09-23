@@ -1,0 +1,9 @@
+name: airbrake
+version: 0.0.1
+
+development_dependencies:
+  webmock:
+    git: https://github.com/manastech/webmock.cr
+    branch: master
+
+license: MIT
