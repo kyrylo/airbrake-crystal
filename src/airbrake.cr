@@ -49,16 +49,15 @@ module Airbrake
   class Config
     property :project_id
     property :project_key
-    property :host
-    property :port
-    property :secure
+    property :endpoint
 
     def uri
-      self.host   ||= "airbrake.io"
-      self.port   ||= 443
-      scheme = (self.secure.nil? || self.secure) ? "https" : "http"
+      self.endpoint ||= "https://airbrake.io"
 
-      URI.new(scheme, host, port, "/api/v3/projects/#{project_id}/notices", "key=#{project_key}").to_s
+      uri       = URI.parse(endpoint.to_s)
+      uri.path  = "/api/v3/projects/#{project_id}/notices"
+      uri.query = "key=#{project_key}"
+      uri
     end
   end
 
