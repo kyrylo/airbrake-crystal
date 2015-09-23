@@ -30,6 +30,9 @@ require "airbrake"
 Airbrake.configure do |config|
   config.project_id = 105138
   config.project_key = "fd04e13d806a90f96614ad8e529b2822"
+  
+  # Optionally set the endpoint
+  config.endpoint = "http://something.private.com:8080"
 end
 
 begin
@@ -73,6 +76,18 @@ Settings_ and copy the values from the right sidebar.
 airbrake.configure do |config|
   config.project_id = 105138
   config.project_key = 'fd04e13d806a90f96614ad8e529b2822'
+end
+```
+
+#### endpoint
+
+You **may** set a custom `endpoint`
+
+```crystal
+Airbrake.configure do |config|
+  config.project_id = 105138
+  config.project_key = "fd04e13d806a90f96614ad8e529b2822"
+  config.endpoint = "http://something.private.com:8080"
 end
 ```
 
