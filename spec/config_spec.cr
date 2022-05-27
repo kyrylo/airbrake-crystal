@@ -22,7 +22,7 @@ describe Airbrake::Config do
       end
 
       uri = Airbrake.config.uri.to_s
-      uri.should eq("https://airbrake.io/api/v3/projects/#{id}/notices?key=#{key}")
+      uri.should eq("https://app.airbrake.io/api/v3/projects/#{id}/notices?key=#{key}")
     end
   end
 end

@@ -12,11 +12,11 @@ describe Airbrake do
     end
 
     it "sends notices" do
-      WebMock.stub(:post, "https://airbrake.io/api/v3/projects/#{id}/notices?key=#{key}").
-        to_return(body: %({"id":"1","url":"https://airbrake.io/locate/1"}))
+      WebMock.stub(:post, "https://app.airbrake.io/api/v3/projects/#{id}/notices?key=#{key}").
+        to_return(body: %({"id":"1","url":"https://app.airbrake.io/locate/1"}))
 
       retval = Airbrake.notify(AirbrakeTestError.new)
-      retval.should eq({"id" => "1", "url" => "https://airbrake.io/locate/1"})
+      retval.should eq({"id" => "1", "url" => "https://app.airbrake.io/locate/1"})
     end
 
     it "raises error if project_key is missing" do
