@@ -41,7 +41,7 @@ rescue ex : DivisionByZero
   Airbrake.notify(ex)
 end
 
-puts 'Check your dashboard on https://airbrake.io'
+puts 'Check your dashboard on https://app.airbrake.io'
 ```
 
 Configuration
